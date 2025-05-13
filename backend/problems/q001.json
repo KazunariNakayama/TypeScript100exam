@@ -1,0 +1,7 @@
+{
+  "id": "q001",
+  "title": "配列の合計を求めよ",
+  "description": "number[] を受け取り、要素の合計を返す関数 sum を実装してください。",
+  "starterCode": "function sum(arr: number[]): number {\n  // TODO: 実装をここに書く\n  return 0;\n}",
+  "testCode": "console.assert(sum([1, 2, 3]) === 6, 'Test failed: sum([1, 2, 3]) !== 6');\nconsole.assert(sum([-1, 0, 1]) === 0, 'Test failed: sum([-1, 0, 1]) !== 0');\nconsole.assert(sum([]) === 0, 'Test failed: sum([]) !== 0');"
+} 

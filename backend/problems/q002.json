@@ -1,0 +1,8 @@
+{
+    "id": "q002",
+    "title": "文字列を逆順にせよ",
+    "description": "文字列 str を受け取り、逆順にした文字列を返す関数 reverseString を実装してください。",
+    "starterCode": "function reverseString(str: string): string {\n  // TODO: 実装をここに書く\n  return '';\n}",
+    "testCode": "console.assert(reverseString('hello') === 'olleh', 'Test failed: reverseString(\"hello\") !== \"olleh\"');\nconsole.assert(reverseString('') === '', 'Test failed: reverseString(\"\") !== \"\"');\nconsole.assert(reverseString('a') === 'a', 'Test failed: reverseString(\"a\") !== \"a\"');"
+  }
+  
