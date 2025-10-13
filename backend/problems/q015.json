@@ -1,0 +1,13 @@
+{
+  "id": "q015",
+  "title": "parseQuery（簡易クエリ文字列の解析）",
+  "description": "`key=value&key=value` 形式の文字列を Record<string, string | string[]> に変換してください。同じキーは配列にします。",
+  "starterCode": "function parseQuery(qs: string): Record<string, string | string[]> {\n  // 先頭の ? は除去してOK\n  return {};\n}",
+  "testCode": "const r1 = parseQuery('a=1&b=2');\nconsole.assert(r1.a==='1' && r1.b==='2', 'basic parse');\nconst r2 = parseQuery('?a=1&a=2&c=3');\nconsole.assert(Array.isArray(r2.a) && JSON.stringify(r2.a)===JSON.stringify(['1','2']) && r2.c==='3', 'multi key');",
+  "hint": "split('&') → split('=') → decodeURIComponent。",
+  "answer": "function parseQuery(qs: string): Record<string, string | string[]> {\n  const out: Record<string, string | string[]> = {};\n  const s = qs.startsWith('?') ? qs.slice(1) : qs;\n  if (!s) return out;\n  for (const part of s.split('&')) {\n    if (!part) continue;\n    const [kRaw, vRaw = ''] = part.split('=');\n    const k = decodeURIComponent(kRaw);\n    const v = decodeURIComponent(vRaw);\n    const cur = out[k];\n    if (cur === undefined) out[k] = v; else out[k] = Array.isArray(cur) ? [...cur, v] : [cur, v];\n  }\n  return out;\n}",
+  "explanation": "既存値の型を見て、単一→配列へ昇格させます。",
+  "alternativeSolutions": [
+    "function parseQuery(qs:string){return qs.replace(/^\\?/,'').split('&').filter(Boolean).reduce((a,p)=>{const[k,v='']=p.split('=');const K=decodeURIComponent(k),V=decodeURIComponent(v);const cur=a[K];a[K]=cur===undefined?V:Array.isArray(cur)?[...cur,V]:[cur,V];return a;},{} as Record<string,string|string[]>);}" 
+  ]
+}

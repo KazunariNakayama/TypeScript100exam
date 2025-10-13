@@ -1,0 +1,13 @@
+{
+  "id": "q011",
+  "title": "merge（交差型 A & B を返す）",
+  "description": "2 つのオブジェクトをマージし、型は A & B を返す merge を実装してください。",
+  "starterCode": "function merge<A extends object, B extends object>(a: A, b: B): A & B {\n  // TODO: スプレッドで OK\n  return {} as A & B;\n}",
+  "testCode": "const x = merge({id:1, name:'a'}, {email:'a@a'});\nconsole.assert(x.id===1 && x.name==='a' && x.email==='a@a', 'merge failed');",
+  "hint": "戻り値の型は A & B に固定します。",
+  "answer": "function merge<A extends object, B extends object>(a: A, b: B): A & B { return { ...a, ...b } as A & B; }",
+  "explanation": "交差型により両者のキーが同居します。",
+  "alternativeSolutions": [
+    "function merge<A extends object, B extends object>(a: A, b: B): A & B { const r = {} as A & B; Object.assign(r, a, b); return r; }"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "q005",
+  "title": "出現回数のマップ（Record）",
+  "description": "string[] を受け取り、各文字列の出現回数を Record<string, number> で返す countBy を実装してください。",
+  "starterCode": "function countBy(arr: string[]): Record<string, number> {\n  // TODO\n  return {};\n}",
+  "testCode": "const m = countBy(['a','b','a']);\nconsole.assert(m.a === 2 && m.b === 1, 'countBy failed');",
+  "hint": "未定義なら 0 から開始して加算します。",
+  "answer": "function countBy(arr: string[]): Record<string, number> {\n  const r: Record<string, number> = {};\n  for (const s of arr) r[s] = (r[s] ?? 0) + 1;\n  return r;\n}",
+  "explanation": "Record は辞書を表現するのに適したユーティリティ型です。",
+  "alternativeSolutions": [
+    "function countBy(arr: string[]): Record<string, number> { return arr.reduce((a,s)=>{a[s]=(a[s]??0)+1; return a;}, {} as Record<string, number>); }"
+  ]
+}

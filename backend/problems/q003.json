@@ -1,0 +1,13 @@
+{
+  "id": "q003",
+  "title": "タプル座標の距離（Tuple）",
+  "description": "[number, number] を 2 つ受け取り、ユークリッド距離を返す distance を実装してください。",
+  "starterCode": "type Point = [number, number];\nfunction distance(a: Point, b: Point): number {\n  // TODO: sqrt((dx)^2 + (dy)^2)\n  return 0;\n}",
+  "testCode": "console.assert(distance([0,0],[3,4]) === 5, 'distance should be 5');\nconsole.assert(distance([1,1],[1,1]) === 0, 'distance should be 0');",
+  "hint": "分割代入で x,y を取り出すと読みやすいです。",
+  "answer": "type Point = [number, number];\nfunction distance(a: Point, b: Point): number {\n  const [x1, y1] = a; const [x2, y2] = b;\n  return Math.hypot(x1 - x2, y1 - y2);\n}",
+  "explanation": "タプルで要素数と順序を型で縛ることで安全性が上がります。",
+  "alternativeSolutions": [
+    "type Point = [number, number];\nfunction distance(a: Point, b: Point): number { const dx=a[0]-b[0], dy=a[1]-b[1]; return Math.sqrt(dx*dx+dy*dy); }"
+  ]
+}

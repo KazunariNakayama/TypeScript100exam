@@ -1,0 +1,13 @@
+{
+  "id": "q030",
+  "title": "topK（最大 K 要素の抽出）",
+  "description": "number[] から大きい順に上位 K 個を返す topK を実装してください（K が配列長より大きい場合は全要素）。",
+  "starterCode": "function topK(arr: number[], k: number): number[] {\n  // TODO: ソートで簡易実装（安定性不要）\n  return [];\n}",
+  "testCode": "console.assert(JSON.stringify(topK([5,1,3,2,4], 3)) === JSON.stringify([5,4,3]), 'top3');\nconsole.assert(JSON.stringify(topK([1], 5)) === JSON.stringify([1]), 'over K');",
+  "hint": "slice でコピーして sort((a,b)=>b-a) し、slice(0,k)。",
+  "answer": "function topK(arr: number[], k: number): number[] { return arr.slice().sort((a,b)=>b-a).slice(0, k); }",
+  "explanation": "ヒープで O(n log k) にもできますが、MVP はソートで十分です。",
+  "alternativeSolutions": [
+    "function topK(arr:number[], k:number){ const a=arr.slice(); a.sort((a,b)=>b-a); return a.slice(0,k); }"
+  ]
+}

@@ -32,6 +32,8 @@ docker-compose up
 - フロントエンド: http://localhost:3000
 - バックエンド: http://localhost:4000
 
+フロントエンド側では `VITE_BACKEND_URL` 環境変数を参照してバックエンドにプロキシします。Docker Compose では自動的に `http://backend:4000` に設定されているため、追加設定は不要です。ローカル開発でポートを変更したい場合は、`VITE_BACKEND_URL` を任意のURLに設定してください。
+
 ## 開発
 
 ### フロントエンド

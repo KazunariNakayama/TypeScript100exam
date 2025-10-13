@@ -1,0 +1,13 @@
+{
+  "id": "q020",
+  "title": "sumBy（射影して合計）",
+  "description": "配列の各要素を関数で数値に射影し、その合計を返す sumBy を実装してください。",
+  "starterCode": "function sumBy<T>(arr: T[], f: (v: T) => number): number {\n  // TODO\n  return 0;\n}",
+  "testCode": "const users = [{score: 10},{score: 5},{score: 5}];\nconsole.assert(sumBy(users, u => u.score) === 20, 'sumBy failed');",
+  "hint": "reduce で加算します。",
+  "answer": "function sumBy<T>(arr: T[], f: (v: T) => number): number { return arr.reduce((a,v)=>a+f(v),0); }",
+  "explanation": "空配列でも初期値 0 で安全に動きます。",
+  "alternativeSolutions": [
+    "function sumBy<T>(arr:T[], f:(v:T)=>number){ let t=0; for (const x of arr) t+=f(x); return t; }"
+  ]
+}

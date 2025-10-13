@@ -1,0 +1,13 @@
+{
+  "id": "q014",
+  "title": "once（1 回だけ実行する関数）",
+  "description": "任意の関数を 1 度だけ実行するラッパー once を実装してください。2 回目以降は最初の結果を返す。this と引数は保持すること。",
+  "starterCode": "function once<F extends (...args: any[]) => any>(fn: F): F {\n  // TODO: 実行済みと結果をクロージャに保持\n  return function(this: any, ..._args: any[]) { return undefined; } as F;\n}",
+  "testCode": "let calls = 0; const add = function(this: {base: number}, x: number){ calls++; return this.base + x; };\nconst obj = { base: 10, f: once(add) };\nconst r1 = obj.f.call(obj, 5); const r2 = obj.f.call(obj, 99);\nconsole.assert(r1 === 15 && r2 === 15, 'once result');\nconsole.assert(calls === 1, 'called once');",
+  "hint": "fn.apply(this, args) で this を正しく伝播します。",
+  "answer": "function once<F extends (...args: any[]) => any>(fn: F): F {\n  let called = false; let result: ReturnType<F>;\n  return function(this: any, ...args: Parameters<F>) {\n    if (!called) { called = true; result = fn.apply(this, args); }\n    return result;\n  } as F;\n}",
+  "explanation": "Parameters/ReturnType で型安全に this/引数/戻り値を保持します。",
+  "alternativeSolutions": [
+    "function once<F extends (...a:any)=>any>(fn:F):F{ let done=false, r:ReturnType<F>; return ((...a:Parameters<F>)=>{ if(!done){done=true; r=fn(...a);} return r; }) as F; }"
+  ]
+}

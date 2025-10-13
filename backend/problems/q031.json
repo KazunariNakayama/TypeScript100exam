@@ -1,0 +1,13 @@
+{
+  "id": "q031",
+  "title": "deepFreeze（浅くない凍結）",
+  "description": "入れ子のオブジェクト/配列を再帰的に Object.freeze する deepFreeze を実装してください（戻り値は Readonly 深さ）。",
+  "starterCode": "function deepFreeze<T>(obj: T): T {\n  // TODO: typeof === 'object' && obj !== null で再帰\n  return obj;\n}",
+  "testCode": "const o:any = deepFreeze({ a: { b: 1 }, arr: [1,2] });\nlet threw = false; try { o.a.b = 2; } catch { threw = true; }\nconsole.assert(Object.isFrozen(o) && Object.isFrozen(o.a) && Object.isFrozen(o.arr), 'frozen');\nconsole.assert(threw || o.a.b===1, 'cannot mutate');",
+  "hint": "配列も object です。for-in / Object.keys で辿りましょう。",
+  "answer": "function deepFreeze<T>(obj: T): T {\n  if (typeof obj !== 'object' || obj === null) return obj;\n  Object.freeze(obj as any);\n  for (const k of Object.keys(obj as any)) {\n    const v = (obj as any)[k];\n    if (typeof v === 'object' && v !== null && !Object.isFrozen(v)) deepFreeze(v);\n  }\n  return obj;\n}",
+  "explanation": "循環参照は未対応ですが、基本の再帰パターンです。",
+  "alternativeSolutions": [
+    "function deepFreeze<T>(o:T):T{ if(o && typeof o==='object'){ Object.freeze(o as any); for(const k in o as any){ const v=(o as any)[k]; if(v && typeof v==='object' && !Object.isFrozen(v)) deepFreeze(v); } } return o; }"
+  ]
+}

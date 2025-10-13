@@ -1,0 +1,13 @@
+{
+  "id": "q008",
+  "title": "formatId（Union の整形）",
+  "description": "number | string を受け取り、`#<3桁左ゼロ埋め>` 形式の文字列を返す formatId を実装してください。",
+  "starterCode": "function formatId(id: number | string): string {\n  // 例: 42 -> \"#042\", \"7\" -> \"#007\"\n  return '#000';\n}",
+  "testCode": "console.assert(formatId(42) === '#042', 'number 42');\nconsole.assert(formatId('7') === '#007', 'string 7');\nconsole.assert(formatId('007') === '#007', 'already padded');",
+  "hint": "String() + padStart(3, '0') で OK。",
+  "answer": "function formatId(id: number | string): string {\n  const s = String(id);\n  return '#' + s.padStart(3, '0');\n}",
+  "explanation": "Union を文字列に正規化してから処理すれば分岐が減ります。",
+  "alternativeSolutions": [
+    "function formatId(id: number | string): string { let s = typeof id==='number'? String(id): id; while(s.length<3) s='0'+s; return '#'+s; }"
+  ]
+}

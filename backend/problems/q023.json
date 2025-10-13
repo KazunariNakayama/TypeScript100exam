@@ -1,0 +1,13 @@
+{
+  "id": "q023",
+  "title": "clamp（範囲内に丸める）",
+  "description": "値 x を [min, max] の範囲に収める clamp を実装してください。",
+  "starterCode": "function clamp(x: number, min: number, max: number): number {\n  // TODO\n  return x;\n}",
+  "testCode": "console.assert(clamp(5, 0, 10) === 5, 'inside');\nconsole.assert(clamp(-1, 0, 10) === 0, 'below');\nconsole.assert(clamp(12, 0, 10) === 10, 'above');",
+  "hint": "Math.min(Math.max(x, min), max)",
+  "answer": "function clamp(x: number, min: number, max: number): number { return Math.min(Math.max(x, min), max); }",
+  "explanation": "二段階で上下限を適用します。",
+  "alternativeSolutions": [
+    "function clamp(x:number,min:number,max:number){ if(x<min)return min; if(x>max)return max; return x; }"
+  ]
+}

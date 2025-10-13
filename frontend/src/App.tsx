@@ -11,6 +11,10 @@ interface Problem {
   description: string;
   starterCode: string;
   testCode: string;
+  hint: string;
+  answer: string;
+  explanation: string;
+  alternativeSolutions: string[];
 }
 
 interface ProblemListItem {
@@ -19,13 +23,34 @@ interface ProblemListItem {
   description: string;
 }
 
+interface TestCaseResult {
+  name: string;
+  passed: boolean;
+  message?: string;
+}
+
+interface RunSummary {
+  total: number;
+  passed: number;
+  failed: number;
+}
+
+interface RunResult {
+  success: boolean;
+  results: TestCaseResult[];
+  summary: RunSummary;
+  stdout: string;
+  stderr: string;
+  error?: string;
+}
+
 function App() {
   const [problems, setProblems] = useState<ProblemListItem[]>([]);
   const [selectedProblemId, setSelectedProblemId] = useState<string>('');
   const [problem, setProblem] = useState<Problem | null>(null);
   const [code, setCode] = useState('');
-  const [output, setOutput] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [runResult, setRunResult] = useState<RunResult | null>(null);
 
   // 問題一覧を取得
   useEffect(() => {
@@ -63,8 +88,8 @@ function App() {
           console.log('Problem details loaded:', data);
           setProblem(data);
           setCode(data.starterCode);
-          setOutput('');
           setError(null);
+          setRunResult(null);
         })
         .catch(err => {
           console.error('Error loading problem details:', err);
@@ -77,6 +102,7 @@ function App() {
     if (!problem) return;
 
     try {
+      setError(null);
       const response = await fetch('/api/run', {
         method: 'POST',
         headers: {
@@ -93,17 +119,11 @@ function App() {
       }
 
       const result = await response.json();
-      if (result.error) {
-        setError(result.error);
-        setOutput('');
-      } else {
-        setOutput(result.output);
-        setError(null);
-      }
+      setRunResult(result);
+      setError(result.error ?? null);
     } catch (err) {
       console.error('Error running code:', err);
       setError(err instanceof Error ? err.message : '実行中にエラーが発生しました');
-      setOutput('');
     }
   };
 
@@ -113,30 +133,43 @@ function App() {
 
   return (
     <div className="app">
-      <header>
-        <h1>TypeScript 100本ノック</h1>
+      <header className="app-header">
+        <h1>TypeScript チャレンジ</h1>
       </header>
-      <main>
-        <div className="problem-selector-section">
+      <main className="app-layout">
+        <aside className="sidebar">
           <ProblemSelector
             problems={problems}
             selectedProblemId={selectedProblemId}
             onSelectProblem={setSelectedProblemId}
           />
-        </div>
-        <div className="problem-section">
-          {problem && <ProblemView problem={problem} />}
-        </div>
-        <div className="editor-section">
-          <Editor code={code} onChange={value => setCode(value || '')} />
-          <button onClick={handleRun}>実行</button>
-          <div className="result-section">
-            <ResultView output={output} error={error} />
+        </aside>
+
+        <section className="problem-panel">
+          {problem && <ProblemView key={problem.id} problem={problem} />}
+        </section>
+
+        <section className="workspace">
+          <div className="editor-card surface">
+            <div className="editor-toolbar">
+              <h2>エディタ</h2>
+              <button type="button" className="run-button" onClick={handleRun}>
+                ▶ 実行
+              </button>
+            </div>
+            <Editor code={code} onChange={value => setCode(value || '')} />
           </div>
-        </div>
+
+          <div className="terminal-card surface">
+            <div className="terminal-header">
+              <h2>ターミナル</h2>
+            </div>
+            <ResultView result={runResult} error={error} />
+          </div>
+        </section>
       </main>
     </div>
   );
 }
 
-export default App; 
+export default App;

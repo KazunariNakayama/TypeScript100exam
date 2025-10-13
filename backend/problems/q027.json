@@ -1,0 +1,13 @@
+{
+  "id": "q027",
+  "title": "parseJSONSafe（例外を結果型に）",
+  "description": "JSON.parse を安全にラップし、成功時は { ok: true, value: any }、失敗時は { ok: false, error: Error } を返す parseJSONSafe を実装してください。",
+  "starterCode": "type Ok<T> = { ok: true; value: T };\ntype Err = { ok: false; error: Error };\nfunction parseJSONSafe<T = unknown>(text: string): Ok<T> | Err {\n  // TODO\n  return { ok: true, value: undefined as any };\n}",
+  "testCode": "const a = parseJSONSafe('{\"x\":1}');\nconsole.assert(a.ok && (a as any).value.x === 1, 'ok parse');\nconst b = parseJSONSafe('{x:}');\nconsole.assert(!b.ok && b.error instanceof Error, 'err parse');",
+  "hint": "try/catch で分岐し、戻り値の判別可能ユニオンを返します。",
+  "answer": "type Ok<T> = { ok: true; value: T };\ntype Err = { ok: false; error: Error };\nfunction parseJSONSafe<T = unknown>(text: string): Ok<T> | Err {\n  try { return { ok: true, value: JSON.parse(text) as T }; }\n  catch (e) { return { ok: false, error: e instanceof Error ? e : new Error(String(e)) }; }\n}",
+  "explanation": "例外を返り値に持ち上げると、呼び出し側で扱いやすくなります。",
+  "alternativeSolutions": [
+    "const parseJSONSafe = <T=unknown>(s:string):Ok<T>|Err=>{ try{ return {ok:true,value:JSON.parse(s)}; }catch(e){ return {ok:false,error:e as Error}; } };"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "q007",
+  "title": "compact（null/undefined 除去 + 型ガード）",
+  "description": "(T | null | undefined)[] から null/undefined を除去した T[] を返す compact を実装してください（型も絞り込み）。",
+  "starterCode": "function compact<T>(arr: Array<T | null | undefined>): T[] {\n  // TODO: type predicate を使う\n  return [] as T[];\n}",
+  "testCode": "const c = compact([1, null, 2, undefined, 3]);\nconsole.assert(JSON.stringify(c) === JSON.stringify([1,2,3]), 'compact failed');",
+  "hint": "ユーザー定義型ガード `(v is T)` を返す関数を filter に渡します。",
+  "answer": "function isPresent<T>(v: T | null | undefined): v is T { return v != null; }\nfunction compact<T>(arr: Array<T | null | undefined>): T[] { return arr.filter(isPresent); }",
+  "explanation": "`!= null` は null と undefined の両方を弾けます。",
+  "alternativeSolutions": [
+    "function compact<T>(arr: Array<T | null | undefined>): T[] { return arr.filter((v): v is T => v !== null && v !== undefined); }"
+  ]
+}

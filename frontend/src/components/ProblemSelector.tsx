@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Problem {
   id: string;
   title: string;

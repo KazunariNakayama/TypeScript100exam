@@ -1,0 +1,13 @@
+{
+  "id": "q017",
+  "title": "delay（Promise の基本）",
+  "description": "指定ミリ秒後に解決する Promise<void> を返す delay を実装してください。",
+  "starterCode": "function delay(ms: number): Promise<void> {\n  // TODO: setTimeout を Promise 化\n  return Promise.resolve();\n}",
+  "testCode": "(async () => { const t0 = Date.now(); await delay(30); console.assert(Date.now() - t0 >= 25, 'delay too short'); })();",
+  "hint": "new Promise(res => setTimeout(res, ms))",
+  "answer": "function delay(ms: number): Promise<void> { return new Promise(res => setTimeout(res, ms)); }",
+  "explanation": "非同期完了の表現に Promise を使います。",
+  "alternativeSolutions": [
+    "const delay = (ms:number) => new Promise<void>(r => setTimeout(r, ms));"
+  ]
+}

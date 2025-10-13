@@ -1,0 +1,13 @@
+{
+  "id": "q022",
+  "title": "mapValues（値を変換）",
+  "description": "オブジェクトの各値に関数を適用して新しいオブジェクトを返す mapValues を実装してください。",
+  "starterCode": "function mapValues<T extends object, R>(obj: T, f: (v: T[keyof T]) => R): { [K in keyof T]: R } {\n  // TODO\n  return {} as any;\n}",
+  "testCode": "const o = { a: 1, b: 2 };\nconst r = mapValues(o, v => (v as number) * 2);\nconsole.assert(r.a === 2 && r.b === 4, 'mapValues');",
+  "hint": "for-in でキーを回して代入。as const の扱いに注意。",
+  "answer": "function mapValues<T extends object, R>(obj: T, f: (v: T[keyof T]) => R): { [K in keyof T]: R } {\n  const out = {} as { [K in keyof T]: R };\n  for (const k in obj) { out[k as keyof T] = f(obj[k as keyof T]); }\n  return out;\n}",
+  "explanation": "インデックス型アクセスで値の型を取得し、戻り値のマップド型へ割り当てます。",
+  "alternativeSolutions": [
+    "function mapValues<T extends Record<string, any>, R>(obj: T, f: (v: T[keyof T]) => R){ const o:Record<string,R>={}; for(const k in obj){ o[k]=f(obj[k]); } return o as { [K in keyof T]: R }; }"
+  ]
+}

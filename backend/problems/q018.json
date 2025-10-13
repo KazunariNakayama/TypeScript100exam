@@ -1,0 +1,13 @@
+{
+  "id": "q018",
+  "title": "raceWithTimeout（タイムアウト付き）",
+  "description": "任意の Promise p が ms ミリ秒以内に解決しなければ reject する raceWithTimeout を実装してください。",
+  "starterCode": "function raceWithTimeout<T>(p: Promise<T>, ms: number): Promise<T> {\n  // TODO: Promise.race\n  return p;\n}",
+  "testCode": "(async () => {\n  const fast = new Promise<number>(r => setTimeout(() => r(1), 10));\n  const slow = new Promise<number>(r => setTimeout(() => r(2), 50));\n  console.assert(await raceWithTimeout(fast, 30) === 1, 'fast should win');\n  let timedOut = false;\n  try { await raceWithTimeout(slow, 20); } catch { timedOut = true; }\n  console.assert(timedOut, 'should timeout');\n})();",
+  "hint": "タイムアウト側は reject する Promise を作り、race します。",
+  "answer": "function raceWithTimeout<T>(p: Promise<T>, ms: number): Promise<T> {\n  return Promise.race([\n    p,\n    new Promise<T>((_res, rej) => setTimeout(() => rej(new Error('timeout')), ms))\n  ]);\n}",
+  "explanation": "先に完了した側が結果になります。",
+  "alternativeSolutions": [
+    "async function raceWithTimeout<T>(p: Promise<T>, ms: number): Promise<T> { let to:any; const t = new Promise<never>((_r,rej)=>{to=setTimeout(()=>rej(new Error('timeout')),ms)}); try { return await Promise.race([p,t]); } finally { clearTimeout(to); } }"
+  ]
+}

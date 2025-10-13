@@ -1,0 +1,13 @@
+{
+  "id": "q032",
+  "title": "throttle（一定間隔で 1 回）",
+  "description": "関数 fn をラップし、指定 ms の間隔内は最初の呼び出しだけ実行する throttle を実装してください（返り値は最後に実行した結果）。",
+  "starterCode": "function throttle<F extends (...args:any[])=>any>(fn: F, ms: number): F {\n  // TODO: タイマーとフラグ\n  return function(this:any, ..._a:any[]){ return undefined; } as F;\n}",
+  "testCode": "(async () => {\n  let n = 0; const f = throttle((x:number)=>{ n+=x; return n; }, 30);\n  const r1 = f(1); const r2 = f(1); const r3 = f(1);\n  await delay(35); const r4 = f(1);\n  console.assert(r1===1 && r4===2 && n===2, 'throttle');\n})();",
+  "hint": "実行時刻と setTimeout/Date.now を使います。",
+  "answer": "function throttle<F extends (...args:any[])=>any>(fn: F, ms: number): F {\n  let last = 0; let lastResult: ReturnType<F>;\n  return function(this:any, ...a:Parameters<F>) {\n    const now = Date.now();\n    if (now - last >= ms) { last = now; lastResult = fn.apply(this, a); }\n    return lastResult as ReturnType<F>;\n  } as F;\n}",
+  "explanation": "一定間隔でのみ実行する典型パターンです。",
+  "alternativeSolutions": [
+    "function throttle<F extends (...a:any[])=>any>(fn:F, ms:number):F{ let t=0, r:ReturnType<F>; return ((...a:Parameters<F>)=>{ const n=Date.now(); if(n-t>=ms){ t=n; r=fn(...a); } return r; }) as F; }"
+  ]
+}

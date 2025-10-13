@@ -1,0 +1,13 @@
+{
+  "id": "q016",
+  "title": "LogLevel をメッセージに変換（Enum）",
+  "description": "LogLevel enum を作成し、与えられたレベルに応じたメッセージを返す logMsg を実装してください。",
+  "starterCode": "enum LogLevel { Debug, Info, Warn, Error }\nfunction logMsg(level: LogLevel): string {\n  // TODO: レベルごとに文字列を返す\n  return '';\n}\nexport { LogLevel };",
+  "testCode": "console.assert(logMsg(LogLevel.Debug).includes('DEBUG'), 'debug msg');\nconsole.assert(logMsg(LogLevel.Error).includes('ERROR'), 'error msg');",
+  "hint": "switch 文で全ケースを網羅しましょう。",
+  "answer": "enum LogLevel { Debug, Info, Warn, Error }\nfunction logMsg(level: LogLevel): string {\n  switch (level) {\n    case LogLevel.Debug: return '[DEBUG] message';\n    case LogLevel.Info:  return '[INFO] message';\n    case LogLevel.Warn:  return '[WARN] message';\n    case LogLevel.Error: return '[ERROR] message';\n  }\n}\nexport { LogLevel };",
+  "explanation": "enum と switch で網羅性が静的にチェックされます。",
+  "alternativeSolutions": [
+    "enum LogLevel{Debug,Info,Warn,Error} const map:Record<LogLevel,string>={[LogLevel.Debug]:'[DEBUG] message',[LogLevel.Info]:'[INFO] message',[LogLevel.Warn]:'[WARN] message',[LogLevel.Error]:'[ERROR] message'}; function logMsg(level:LogLevel){return map[level];} export{LogLevel};"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "q009",
+  "title": "getProp（Generics + keyof）",
+  "description": "オブジェクトからキーに対応する値を返す getProp を実装してください（Generics + keyof）。",
+  "starterCode": "function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {\n  // TODO\n  return obj[key];\n}",
+  "testCode": "const user = { id:1, name:'alice' };\nconsole.assert(getProp(user, 'name') === 'alice', 'getProp failed');\n// @ts-expect-error\n// @ts-ignore\ngetProp(user, 'email');",
+  "hint": "K を keyof T に制約すれば存在しないキーを防げます。",
+  "answer": "function getProp<T, K extends keyof T>(obj: T, key: K): T[K] { return obj[key]; }",
+  "explanation": "T[K] で戻り値の型が正しく射影されます。",
+  "alternativeSolutions": [
+    "const getProp = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];"
+  ]
+}

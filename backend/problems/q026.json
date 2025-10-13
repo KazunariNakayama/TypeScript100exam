@@ -1,0 +1,13 @@
+{
+  "id": "q026",
+  "title": "EventEmitter（型安全な on/emit）",
+  "description": "イベント名とペイロード型のマップ EventMap を受け取り、`on(event, handler)` と `emit(event, payload)` を提供する TypedEmitter を実装してください。",
+  "starterCode": "type EventMap = { ready: void; data: { id: number }; error: { message: string } };\nclass TypedEmitter<M extends Record<string, any>> {\n  // TODO: ハンドラ登録と呼び出し\n}\n",
+  "testCode": "type EM = { ready: void; data: { id: number }; error: { message: string } };\nconst em = new (TypedEmitter as new <T>()=>TypedEmitter<T>)<EM>();\nlet gotId = 0; let ready = false; let errMsg='';\nem.on('data', (p) => { gotId = p.id; });\nem.on('ready', () => { ready = true; });\nem.on('error', (e) => { errMsg = e.message; });\nem.emit('data', { id: 123 });\nem.emit('ready', undefined);\nem.emit('error', { message: 'oops' });\nconsole.assert(ready && gotId===123 && errMsg==='oops', 'typed emitter failed');\n// @ts-expect-error\n// @ts-ignore\nem.emit('data', { id: 'x' });",
+  "hint": "内部に Record<keyof M, Function[]> を持ちます。",
+  "answer": "class TypedEmitter<M extends Record<string, any>> {\n  private handlers: { [K in keyof M]?: Array<(p: M[K]) => void> } = {} as any;\n  on<K extends keyof M>(event: K, fn: (payload: M[K]) => void): void {\n    (this.handlers[event] ??= []).push(fn as any);\n  }\n  emit<K extends keyof M>(event: K, payload: M[K]): void {\n    for (const fn of this.handlers[event] ?? []) (fn as any)(payload);\n  }\n}",
+  "explanation": "ジェネリクス + マップド型でイベント名ごとにペイロード型を結びつけます。",
+  "alternativeSolutions": [
+    "class TypedEmitter<M extends Record<string, any>>{ private h=new Map<keyof M, Function[]>(); on<K extends keyof M>(e:K,fn:(p:M[K])=>void){ const a=this.h.get(e)||[]; a.push(fn); this.h.set(e,a); } emit<K extends keyof M>(e:K,p:M[K]){ for(const fn of this.h.get(e)||[]) (fn as any)(p); } }"
+  ]
+}

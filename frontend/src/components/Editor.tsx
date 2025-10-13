@@ -7,20 +7,22 @@ interface EditorProps {
 
 export default function Editor({ code, onChange }: EditorProps) {
   return (
-    <MonacoEditor
-      height="400px"
-      language="typescript"
-      value={code}
-      onChange={onChange}
-      theme="vs-dark"
-      options={{
-        minimap: { enabled: false },
-        fontSize: 14,
-        lineNumbers: 'on',
-        roundedSelection: false,
-        scrollBeyondLastLine: false,
-        automaticLayout: true,
-      }}
-    />
+    <div className="editor-host">
+      <MonacoEditor
+        height="100%"
+        language="typescript"
+        value={code}
+        onChange={onChange}
+        theme="vs-dark"
+        options={{
+          minimap: { enabled: false },
+          fontSize: 14,
+          lineNumbers: 'on',
+          roundedSelection: false,
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+        }}
+      />
+    </div>
   );
-} 
+}

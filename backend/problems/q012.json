@@ -1,0 +1,13 @@
+{
+  "id": "q012",
+  "title": "groupBy（キー関数でグループ化）",
+  "description": "配列をキー関数でグループ化する groupBy を実装してください。",
+  "starterCode": "function groupBy<T, K extends string | number | symbol>(arr: T[], keyFn: (v: T) => K): Record<string, T[]> {\n  // TODO\n  return {};\n}",
+  "testCode": "const r = groupBy(['ant','bear','bee'], s => s[0]);\nconsole.assert(JSON.stringify(r.a) === JSON.stringify(['ant']), 'group a');\nconsole.assert(JSON.stringify(r.b) === JSON.stringify(['bear','bee']), 'group b');",
+  "hint": "オブジェクトキーは string 化されます。",
+  "answer": "function groupBy<T, K extends string | number | symbol>(arr: T[], keyFn: (v: T) => K): Record<string, T[]> {\n  const out: Record<string, T[]> = {};\n  for (const v of arr) { const k = String(keyFn(v)); (out[k] ??= []).push(v); }\n  return out;\n}",
+  "explanation": "Record<string, T[]> とし、キーは String() で正規化します。",
+  "alternativeSolutions": [
+    "function groupBy<T, K extends string | number | symbol>(arr: T[], keyFn: (v: T) => K): Record<string, T[]> { return arr.reduce((a,v)=>{ const k=String(keyFn(v)); (a[k]??=[]).push(v); return a; }, {} as Record<string,T[]>); }"
+  ]
+}

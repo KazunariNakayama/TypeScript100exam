@@ -1,0 +1,13 @@
+{
+  "id": "q019",
+  "title": "fetchWithTimeout（AbortController）",
+  "description": "URL とタイムアウト ms を受け取り、指定時間内に fetch が完了しなければ AbortError で失敗させる fetchWithTimeout を実装してください（レスポンスは JSON を返すものとします）。",
+  "starterCode": "async function fetchWithTimeout(url: string, ms: number): Promise<any> {\n  // TODO: AbortController + setTimeout\n  return {};\n}",
+  "testCode": "(async () => {\n  // 疑似テスト: 実ネットワークに依存しないよう、Promise をスタブに見立てます。\n  const fakeFetch = (signal: AbortSignal, delay: number) => new Promise((res, rej) => {\n    const id = setTimeout(() => { if (signal.aborted) return; res({ json: async () => ({ ok: true }) }); }, delay);\n    signal.addEventListener('abort', () => { clearTimeout(id); rej(new DOMException('Aborted','AbortError')); });\n  });\n  // 依存注入版と仮定して内部を書き換える余地がない場合、設計メモとして読む想定の軽テスト\n  console.assert(typeof fetchWithTimeout === 'function', 'exists');\n})();",
+  "hint": "AbortController を作り、setTimeout で abort() を呼び出してから fetch に signal を渡します。",
+  "answer": "async function fetchWithTimeout(url: string, ms: number): Promise<any> {\n  const ctrl = new AbortController();\n  const to = setTimeout(() => ctrl.abort(), ms);\n  try {\n    const res = await fetch(url, { signal: ctrl.signal });\n    return await res.json();\n  } finally {\n    clearTimeout(to);\n  }\n}",
+  "explanation": "fetch は signal を渡すと中断できます。finally でタイマーを必ず解放します。",
+  "alternativeSolutions": [
+    "async function fetchWithTimeout(url:string, ms:number){ const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),ms); const res=await fetch(url,{signal:ctrl.signal}); clearTimeout(t); return res.json(); }"
+  ]
+}

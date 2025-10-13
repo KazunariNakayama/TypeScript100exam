@@ -1,0 +1,13 @@
+{
+  "id": "q010",
+  "title": "pick（部分オブジェクトの生成）",
+  "description": "オブジェクトから指定キーだけを抽出する pick を実装してください。",
+  "starterCode": "function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {\n  // TODO\n  return {} as Pick<T, K>;\n}",
+  "testCode": "const u = { id: 1, name: 'alice', email: 'a@a' };\nconst r = pick(u, ['id','name']);\nconsole.assert(r.id === 1 && r.name === 'alice', 'pick failed');\n// @ts-expect-error\n// @ts-ignore\nconsole.assert(!(r as any).email, 'result should not have email');",
+  "hint": "空オブジェクトからループで代入します。",
+  "answer": "function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {\n  const out = {} as Pick<T, K>;\n  for (const k of keys) out[k] = obj[k];\n  return out;\n}",
+  "explanation": "Pick ユーティリティ型で戻り値の表面を制限できます。",
+  "alternativeSolutions": [
+    "function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> { return keys.reduce((a,k)=>{ (a as any)[k]=obj[k]; return a; }, {} as Pick<T,K>); }"
+  ]
+}

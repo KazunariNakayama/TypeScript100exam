@@ -1,0 +1,13 @@
+{
+  "id": "q024",
+  "title": "range（整数レンジ生成）",
+  "description": "start から end まで（end を含む/含まないは引数 inclusive で制御）整数配列を返す range を実装してください。デフォルトは含まない。",
+  "starterCode": "function range(start: number, end: number, inclusive = false): number[] {\n  // TODO\n  return [];\n}",
+  "testCode": "console.assert(JSON.stringify(range(0,3)) === JSON.stringify([0,1,2]), 'half-open');\nconsole.assert(JSON.stringify(range(1,3,true)) === JSON.stringify([1,2,3]), 'inclusive');",
+  "hint": "長さを計算して for で push。",
+  "answer": "function range(start: number, end: number, inclusive = false): number[] {\n  const out: number[] = [];\n  const last = inclusive ? end : end - 1;\n  for (let i = start; i <= last; i++) out.push(i);\n  return out;\n}",
+  "explanation": "inclusive に応じて終端を調整します。",
+  "alternativeSolutions": [
+    "function range(start:number,end:number,inclusive=false){ return Array.from({length:(inclusive? end-start+1: end-start)},(_,i)=>start+i); }"
+  ]
+}

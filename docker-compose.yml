@@ -9,6 +9,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - VITE_BACKEND_URL=http://backend:4000
     command: npm run dev
 
   backend:

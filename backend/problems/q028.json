@@ -1,0 +1,13 @@
+{
+  "id": "q028",
+  "title": "toQueryString（オブジェクト → クエリ）",
+  "description": "Record<string, string | number | (string|number)[]> を `key=value&key=value` 形式に変換する toQueryString を実装してください（必要に応じて配列を複数キーで展開）。",
+  "starterCode": "function toQueryString(params: Record<string, string | number | Array<string | number>>): string {\n  // TODO: encodeURIComponent\n  return '';\n}",
+  "testCode": "const q1 = toQueryString({ a: 1, b: 'x' });\nconsole.assert(q1 === 'a=1&b=x' || q1 === 'b=x&a=1', 'simple');\nconst q2 = toQueryString({ a: [1,2], c: 'z' });\nconsole.assert(['a=1&a=2&c=z','c=z&a=1&a=2'].includes(q2), 'array');",
+  "hint": "配列はループして `a=1&a=2` のように展開します。",
+  "answer": "function toQueryString(params: Record<string, string | number | Array<string | number>>): string {\n  const parts: string[] = [];\n  for (const k in params) {\n    const v = params[k];\n    const push = (val: string|number) => parts.push(`${encodeURIComponent(k)}=${encodeURIComponent(String(val))}`);\n    if (Array.isArray(v)) { for (const x of v) push(x); }\n    else push(v);\n  }\n  return parts.join('&');\n}",
+  "explanation": "encode しておかないと空白や記号で崩れます。",
+  "alternativeSolutions": [
+    "function toQueryString(p:Record<string,string|number|(string|number)[]>) { return Object.entries(p).flatMap(([k,v])=> Array.isArray(v)? v.map(x=>`${encodeURIComponent(k)}=${encodeURIComponent(String(x))}`): `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`).join('&'); }"
+  ]
+}

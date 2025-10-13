@@ -1,0 +1,13 @@
+{
+  "id": "q021",
+  "title": "isUser（unknown を安全に判定）",
+  "description": "unknown を受け取り、User 型であるとき true を返す型ガード isUser を実装してください。",
+  "starterCode": "type User = { id: number; name: string };\nfunction isUser(u: unknown): u is User {\n  // TODO: typeof と null チェック、プロパティの型確認\n  return false;\n}\nfunction parseUser(u: unknown): User | null { return isUser(u) ? u : null; }",
+  "testCode": "console.assert(parseUser({id:1,name:'a'})?.name === 'a', 'should parse');\nconsole.assert(parseUser({id:'x',name:'a'}) === null, 'id must be number');\nconsole.assert(parseUser('nope') === null, 'string is not user');",
+  "hint": "object かつ null でないこと、id が number、name が string。",
+  "answer": "type User = { id: number; name: string };\nfunction isUser(u: unknown): u is User {\n  if (typeof u !== 'object' || u === null) return false;\n  const o = u as Record<string, unknown>;\n  return typeof o.id === 'number' && typeof o.name === 'string';\n}\nfunction parseUser(u: unknown): User | null { return isUser(u) ? u : null; }",
+  "explanation": "unknown を直接触らず、ガードで絞り込んでから使います。",
+  "alternativeSolutions": [
+    "function isUser(u: unknown): u is User { return !!u && typeof u==='object' && typeof (u as any).id==='number' && typeof (u as any).name==='string'; }"
+  ]
+}

@@ -75,7 +75,7 @@ app.post('/api/run', async (req, res) => {
     }
 
     const result = await runCode(code, testCode);
-    res.json({ output: result });
+    res.json(result);
   } catch (error) {
     console.error('Error running code:', error);
     res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error occurred' });

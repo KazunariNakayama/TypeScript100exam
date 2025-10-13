@@ -1,0 +1,13 @@
+{
+  "id": "q013",
+  "title": "Stack クラス（Generics & クラス）",
+  "description": "ジェネリックな Stack<T> を実装してください。push, pop, peek, size を持ちます。",
+  "starterCode": "class Stack<T> {\n  // TODO: 内部配列で管理\n  push(_v: T): void {}\n  pop(): T | undefined { return undefined; }\n  peek(): T | undefined { return undefined; }\n  size(): number { return 0; }\n}",
+  "testCode": "const s = new Stack<number>();\ns.push(1); s.push(2);\nconsole.assert(s.size() === 2, 'size 2');\nconsole.assert(s.peek() === 2, 'peek 2');\nconsole.assert(s.pop() === 2 && s.pop() === 1 && s.pop() === undefined, 'pop order');",
+  "hint": "private フィールドで T[] を持ち、末尾を top とします。",
+  "answer": "class Stack<T> {\n  private store: T[] = [];\n  push(v: T): void { this.store.push(v); }\n  pop(): T | undefined { return this.store.pop(); }\n  peek(): T | undefined { return this.store[this.store.length - 1]; }\n  size(): number { return this.store.length; }\n}",
+  "explanation": "配列の末尾操作は amortized O(1) で効率的です。",
+  "alternativeSolutions": [
+    "class Stack<T>{ #a:T[]=[]; push(v:T){this.#a.push(v);} pop(){return this.#a.pop();} peek(){return this.#a[this.#a.length-1];} size(){return this.#a.length;} }"
+  ]
+}

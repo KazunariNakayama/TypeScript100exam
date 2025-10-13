@@ -1,0 +1,13 @@
+{
+  "id": "q004",
+  "title": "ユニーク化（順序保持）",
+  "description": "number[] から重複を除き、**元の出現順**を保った配列を返す unique を実装してください。",
+  "starterCode": "function unique(arr: number[]): number[] {\n  // TODO: Set で既出管理\n  return [];\n}",
+  "testCode": "console.assert(JSON.stringify(unique([1,2,2,3,1])) === JSON.stringify([1,2,3]), 'unique failed');\nconsole.assert(JSON.stringify(unique([])) === JSON.stringify([]), 'unique empty');",
+  "hint": "見たことのない値だけ push します。",
+  "answer": "function unique(arr: number[]): number[] {\n  const seen = new Set<number>(); const out: number[] = [];\n  for (const v of arr) { if (!seen.has(v)) { seen.add(v); out.push(v); } }\n  return out;\n}",
+  "explanation": "Set は O(1) 近傍で存在判定できるため、全体 O(n) で実装可能です。",
+  "alternativeSolutions": [
+    "function unique(arr: number[]): number[] { return Array.from(new Set(arr)); }"
+  ]
+}
